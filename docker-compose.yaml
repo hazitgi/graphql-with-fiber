@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fiber-go
+    ports:
+      - "5000:8000"
+    restart: unless-stopped
