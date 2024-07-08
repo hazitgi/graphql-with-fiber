@@ -1,38 +1,31 @@
-FROM golang:1.22.5 AS builder
+FROM golang:1.22.5
 
 # Set correct working direcotry inside the container
 WORKDIR /app
 
+# Install Air for live reloading
+RUN go install github.com/air-verse/air@latest
+
 # Copy go.mod go.sum
 COPY go.mod go.sum ./
-
-# Copy the source from the current directory to the Working Directory inside the container
-COPY . .
 
 # Download all dependenices
 RUN go mod download
 
-# Build the app with optimizations
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/main.go
+# Copy the source from the current directory to the Working Directory inside the container
+COPY . .
 
-# Stage 2: Final Stage
-FROM alpine:latest
+# Install necessary build dependencies
+RUN apt-get update && \
+    apt-get install -y gcc && \
+    apt-get install -y musl-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Add ca-certificates for HTTPS
-RUN apk --no-cache add ca-certificates
-
-# Set the working directory for final image
-WORKDIR /root/
-
-# Copy the built executable from the builder stage to the final image
-COPY --from=builder /app/main .
-
-# Run as non-root user
-RUN adduser -D hazitgi
-USER hazitgi
+# Enable cgo for Go builds
+ENV CGO_ENABLED=1
 
 # Expose the  port the app runs on
 EXPOSE 8000
 
 # Run the application
-CMD [ "./main" ]
+CMD ["air", "-c", ".air.toml"]

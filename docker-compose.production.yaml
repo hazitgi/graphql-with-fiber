@@ -3,8 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: go
+    container_name: fiber-go
     ports:
-      - "8000:8000"
+      - "5000:8000"
     restart: unless-stopped
-    command: air -c .air.toml
