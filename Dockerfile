@@ -15,14 +15,14 @@ RUN go mod download
 # Copy the source from the current directory to the Working Directory inside the container
 COPY . .
 
-# Install necessary build dependencies
-RUN apt-get update && \
-    apt-get install -y gcc && \
-    apt-get install -y musl-dev && \
-    rm -rf /var/lib/apt/lists/*
+# # Install necessary build dependencies
+# RUN apt-get update && \
+#     apt-get install -y gcc && \
+#     apt-get install -y musl-dev && \
+#     rm -rf /var/lib/apt/lists/*
 
 # Enable cgo for Go builds
-ENV CGO_ENABLED=1
+# ENV CGO_ENABLED=1
 
 # Expose the  port the app runs on
 EXPOSE 8000
