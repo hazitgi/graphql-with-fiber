@@ -1,5 +1,12 @@
 package common
 
+import (
+	"fmt"
+	"strings"
+
+	"gorm.io/gorm"
+)
+
 type User struct{}
 
 type CreateUserInput struct {
@@ -59,4 +66,19 @@ func (pagination *Pagination) Setup() *Pagination {
 		pagination.SortField = "id" // Default to id if field is not provided
 	}
 	return &Pagination{}
+}
+
+func (pagination *Pagination) SetSearch(query *gorm.DB, searchField []string) *gorm.DB {
+	if pagination.Search != "" {
+		searchPattern := fmt.Sprintf("%%%s%%", pagination.Search)
+		conditions := make([]string, len(searchField))
+		value := make([]interface{}, len(searchField))
+
+		for i, field := range searchField {
+			conditions[i] = fmt.Sprintf("%s LIKE ?", field)
+			value[i] = searchPattern
+		}
+		query = query.Where(strings.Join(conditions, " OR "), value...)
+	}
+	return query
 }

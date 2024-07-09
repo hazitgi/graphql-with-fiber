@@ -70,8 +70,7 @@ func (userSrv *UserService) FindAllUsers(pagination *common.Pagination) ([]*mode
 	var users []*models.User
 	query := userSrv.DB.Model(&models.User{})
 	if pagination.Search != "" {
-		searchPattern := fmt.Sprintf("%%%s%%", pagination.Search)
-		query = query.Where("full_name LIKE ? OR company_name LIKE ? OR email LIKE ?", searchPattern, searchPattern, searchPattern)
+		query = pagination.SetSearch(query, []string{"full_name", "company_name", "email"})
 	}
 	var totalRows int64
 	query.Count(&totalRows)

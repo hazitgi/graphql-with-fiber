@@ -98,12 +98,11 @@ func (userCtrl userControllerImpl) DeleteUser(ctx *fiber.Ctx) error {
 
 func (userCtrl userControllerImpl) ListUser(ctx *fiber.Ctx) error {
 	log.Printf("Getting all users...")
-
 	pagination := &common.Pagination{}
 	if err := ctx.QueryParser(pagination); err != nil {
 		log.Fatalf("pagination error: %v", err)
 	}
-    pagination.Setup()
+	pagination.Setup()
 
 	// Implement pagination
 	_, err := userCtrl.userDatabaseService.FindAllUsers(pagination)
