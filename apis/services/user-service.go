@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/hazitgi/graphql-with-fiber/apis/common"
 	"github.com/hazitgi/graphql-with-fiber/config"
@@ -67,22 +68,23 @@ func (userSrv *UserService) DeleteUser(id uint) error {
 
 func (userSrv *UserService) FindAllUsers(pagination *common.Pagination) ([]*models.User, error) {
 	var users []*models.User
-	// Set default values if not provided
-	if pagination.Page == 0 {
-		pagination.Page = 1
+	query := userSrv.DB.Model(&models.User{})
+	if pagination.Search != "" {
+		searchPattern := fmt.Sprintf("%%%s%%", pagination.Search)
+		query = query.Where("full_name LIKE ? OR company_name LIKE ? OR email LIKE ?", searchPattern, searchPattern, searchPattern)
 	}
-	if pagination.Limit == 0 {
-		pagination.Limit = 10
-	}
-	if pagination.Sort == "" {
-		pagination.Sort = "asc"
-	}
-	pagination.Offset = (pagination.Page - 1) * pagination.Limit
+	var totalRows int64
+	query.Count(&totalRows)
+	pagination.TotalRows = totalRows
+	totalPage := int(math.Ceil(float64(totalRows) / float64(pagination.Limit)))
+	pagination.TotalPages = totalPage
 
-	result := userSrv.DB.Order(fmt.Sprintf("%s ", pagination.SortField) + pagination.Sort).Limit(pagination.Limit).Offset(pagination.Offset).Find(&users)
+	result := query.Order(fmt.Sprintf("%s %s", pagination.SortField, pagination.Sort)).Limit(pagination.Limit).Offset(pagination.Offset).Find(&users)
+
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	pagination.Rows = users
 	return users, nil
 }
 

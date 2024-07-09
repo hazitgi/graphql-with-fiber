@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
@@ -32,6 +33,7 @@ func main() {
 	})
 	app.Use(healthcheck.New())
 	app.Use(logger.New())
+	app.Use(cors.New())
 	config.ConnectDB()
 
 	app.Get("/metrics", monitor.New(monitor.Config{Title: "LoomERP Metrics Page"}))

@@ -98,41 +98,15 @@ func (userCtrl userControllerImpl) DeleteUser(ctx *fiber.Ctx) error {
 
 func (userCtrl userControllerImpl) ListUser(ctx *fiber.Ctx) error {
 	log.Printf("Getting all users...")
-	// page, err := strconv.Atoi(ctx.Query("page", "1"))
-	// if page < 1 {
-	// 	page = 1
-	// }
-	// if err != nil {
-	// 	page = 1
-	// }
-	// limit, err := strconv.Atoi(ctx.Query("limit", "10"))
-	// if err != nil || limit < 1 {
-	// 	limit = 10
-	// }
-	// sort := ctx.Query("sort", "asc")
-	// if sort != "asc" && sort != "desc" {
-	// 	sort = "asc"
-	// }
-	// sortField := ctx.Query("field", "id")
-	// offset := (page - 1) * limit
-	// search := ctx.Query("search", "")
-
-	// input := common.Pagination{
-	// 	Limit:     limit,
-	// 	Page:      page,
-	// 	Sort:      sort,
-	// 	SortField: sortField,
-	// 	Offset:    offset,
-	// 	Search:    search,
-	// }
 
 	pagination := &common.Pagination{}
 	if err := ctx.QueryParser(pagination); err != nil {
 		log.Fatalf("pagination error: %v", err)
 	}
+    pagination.Setup()
 
 	// Implement pagination
-	user, err := userCtrl.userDatabaseService.FindAllUsers(pagination)
+	_, err := userCtrl.userDatabaseService.FindAllUsers(pagination)
 	if err != nil {
 		fmt.Printf("failed to get user: %v", err)
 		response := utils.ErrorHTTPResponse{
@@ -145,7 +119,7 @@ func (userCtrl userControllerImpl) ListUser(ctx *fiber.Ctx) error {
 	response := utils.ValidHTTPResponse{
 		Status:  fiber.StatusOK,
 		Message: "User retrieved successfully",
-		Data:    user,
+		Data:    pagination,
 	}
 	return response.Send(ctx)
 }
