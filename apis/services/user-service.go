@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/hazitgi/graphql-with-fiber/apis/common"
-	"github.com/hazitgi/graphql-with-fiber/config"
-	"github.com/hazitgi/graphql-with-fiber/models"
+	"github.com/hazitgi/loom-erp/apis/common"
+	"github.com/hazitgi/loom-erp/config"
+	"github.com/hazitgi/loom-erp/models"
 	"gorm.io/gorm"
 )
 

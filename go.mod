@@ -1,4 +1,4 @@
-module github.com/hazitgi/graphql-with-fiber
+module github.com/hazitgi/loom-erp
 
 go 1.22.5
 

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/hazitgi/graphql-with-fiber/models"
+	"github.com/hazitgi/loom-erp/models"
 	// "gorm.io/driver/sqlite"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

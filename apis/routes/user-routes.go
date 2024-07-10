@@ -3,9 +3,9 @@ package routes
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/hazitgi/graphql-with-fiber/apis/common"
-	"github.com/hazitgi/graphql-with-fiber/apis/controllers"
-	"github.com/hazitgi/graphql-with-fiber/apis/middleware"
+	"github.com/hazitgi/loom-erp/apis/common"
+	"github.com/hazitgi/loom-erp/apis/controllers"
+	"github.com/hazitgi/loom-erp/apis/middleware"
 )
 
 type UserRoutes struct {

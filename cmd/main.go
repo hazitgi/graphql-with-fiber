@@ -9,8 +9,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	"github.com/hazitgi/graphql-with-fiber/apis/routes"
-	"github.com/hazitgi/graphql-with-fiber/config"
+	"github.com/hazitgi/loom-erp/apis/routes"
+	"github.com/hazitgi/loom-erp/config"
 	"github.com/joho/godotenv"
 )
 

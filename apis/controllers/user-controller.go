@@ -7,10 +7,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/hazitgi/graphql-with-fiber/apis/common"
-	"github.com/hazitgi/graphql-with-fiber/apis/services"
-	"github.com/hazitgi/graphql-with-fiber/apis/utils"
-	"github.com/hazitgi/graphql-with-fiber/models"
+	"github.com/hazitgi/loom-erp/apis/common"
+	"github.com/hazitgi/loom-erp/apis/services"
+	"github.com/hazitgi/loom-erp/apis/utils"
+	"github.com/hazitgi/loom-erp/models"
 )
 
 type UserController interface {
